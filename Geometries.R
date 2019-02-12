@@ -125,3 +125,81 @@ new_col <- colorRampPalette(c("#FFFFFF", "#0000FF"))
 new_col(4) # the newly extrapolated colours
 munsell::plot_hex(new_col(4)) # Quick and dirty plot
 
+
+# Final plot of last exercise
+ggplot(Vocab, aes(x = education, fill = vocabulary)) +
+  geom_bar(position = "fill") +
+  scale_fill_brewer()
+
+# Definition of a set of blue colors
+blues <- brewer.pal(9, "Blues") # from the RColorBrewer package
+
+# 1 - Make a color range using colorRampPalette() and the set of blues
+blue_range <- colorRampPalette(blues)
+
+# 2 - Use blue_range to adjust the color of the bars, use scale_fill_manual()
+ggplot(Vocab, aes(x = education, fill = vocabulary)) +
+  geom_bar(position = "fill") +
+  scale_fill_manual(values = blue_range(11))
+
+# 1 - Basic histogram plot command
+ggplot(mtcars, aes(mpg)) +
+  geom_histogram(binwidth = 1)
+
+# 2 - Plot 1, Expand aesthetics: am onto fill
+ggplot(mtcars, aes(mpg, fill = am)) +
+  geom_histogram(binwidth = 1, aes(), position = 'stack')
+
+
+# 3 - Plot 2, change position = "dodge"
+ggplot(mtcars, aes(mpg, fill = am)) +
+  geom_histogram(binwidth = 1, aes(), position = 'dodge')
+
+
+# 4 - Plot 3, change position = "fill"
+ggplot(mtcars, aes(mpg, fill = am)) +
+  geom_histogram(binwidth = 1, aes(), position = 'fill')
+
+
+# 5 - Plot 4, plus change position = "identity" and alpha = 0.4
+ggplot(mtcars, aes(mpg, fill = am)) +
+  geom_histogram(binwidth = 1, aes(), position = 'identity', alpha = 0.4)
+
+
+# 6 - Plot 5, plus change mapping: cyl onto fill
+ggplot(mtcars, aes(mpg, fill = cyl)) +
+  geom_histogram(binwidth = 1, aes(), position = 'identity', alpha = 0.4)
+
+
+# Print out head of economics
+head(economics)
+
+# Plot unemploy as a function of date using a line plot
+ggplot(economics, aes(x = date, y = unemploy)) +
+  geom_line()
+
+# Adjust plot to represent the fraction of total population that is unemployed
+ggplot(economics, aes(x = date, y = unemploy/pop)) +
+  geom_line()
+
+# Basic line plot
+ggplot(economics, aes(x = date, y = unemploy/pop)) +
+  geom_line()
+
+# Expand the following command with geom_rect() to draw the recess periods
+ggplot(economics, aes(x = date, y = unemploy/pop)) +
+  geom_rect(data = recess,
+            aes(xmin = begin, xmax = end, ymin = -Inf, ymax = +Inf),
+            inherit.aes = FALSE, fill = "red", alpha = 0.2) +
+  geom_line()
+
+
+# Check the structure as a starting point
+str(fish.species)
+
+# Use gather to go from fish.species to fish.tidy
+fish.tidy <- gather(fish.species, Species, Capture, -Year)
+
+# Recreate the plot shown on the right
+ggplot(fish.tidy, aes(x = Year, y = Capture, col = Species)) +
+  geom_line()
